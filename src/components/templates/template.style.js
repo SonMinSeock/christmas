@@ -7,3 +7,13 @@ export const Layout = styled.div`
   max-width: 380px;
   margin: 0 auto;
 `;
+
+export const LoginLayout = styled(Layout)`
+  padding: 0rem;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+`;

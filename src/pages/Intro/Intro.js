@@ -3,12 +3,17 @@ import cardChristmasTreeImage from "../../assets/trees/card-cristmas-tree.png";
 import letterImage from "../../assets/letter/letter.png";
 import socksImage from "../../assets/socks/socks.png";
 import { FiShare } from "react-icons/fi";
-import * as TS from "../../components/templates/template.style";
+import * as TemplateS from "../../components/templates/template.style";
 import * as IntroS from "./Intro.style";
+import { useNavigate } from "react-router-dom";
 
 function Intro() {
+  const navigate = useNavigate();
+  const onNaviage = (to) => {
+    navigate(to);
+  };
   return (
-    <TS.Layout>
+    <TemplateS.Layout>
       <IntroS.Header>
         <h1>D-1</h1>
         <h2>Christmas in Card</h2>
@@ -54,13 +59,15 @@ function Intro() {
         </IntroS.Card>
       </IntroS.Main>
       <IntroS.Footer>
-        <IntroS.Button bgColor="#FF5D56">캐릭터 받기</IntroS.Button>
+        <IntroS.Button bgColor="#FF5D56" onClick={() => onNaviage("/login")}>
+          캐릭터 받기
+        </IntroS.Button>
         <IntroS.Button bgColor="#BFBFBF">
           <FiShare />
           이벤트 공유
         </IntroS.Button>
       </IntroS.Footer>
-    </TS.Layout>
+    </TemplateS.Layout>
   );
 }
 
