@@ -24,6 +24,7 @@ function Form() {
     };
 
     setCreatedUserInfo(userInfo);
+    console.log(userInfo);
   };
 
   const selectedGender = (gender) => setGenger(gender);
@@ -37,15 +38,15 @@ function Form() {
     } else if (type === "age") {
       setValue("termsAge", checked);
       if (termsInformation) {
-        setValue("allTerms", true);
-      } else {
+        setValue("allTerms", checked);
+      } else if (termsAge === false) {
         setValue("allTerms", false);
       }
     } else if (type === "information") {
       setValue("termsInformation", checked);
       if (termsAge) {
-        setValue("allTerms", true);
-      } else {
+        setValue("allTerms", checked);
+      } else if (termsInformation === false) {
         setValue("allTerms", false);
       }
     }
