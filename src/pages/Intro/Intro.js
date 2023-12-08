@@ -6,12 +6,11 @@ import { FiShare } from "react-icons/fi";
 import * as TemplateS from "../../components/templates/template.style";
 import * as IntroS from "./Intro.style";
 import { useNavigate } from "react-router-dom";
+import { onNavigation } from "../../controller/navigate";
 
 function Intro() {
   const navigate = useNavigate();
-  const onNaviage = (to) => {
-    navigate(to);
-  };
+
   return (
     <TemplateS.Layout>
       <IntroS.Header>
@@ -59,7 +58,7 @@ function Intro() {
         </IntroS.Card>
       </IntroS.Main>
       <IntroS.Footer>
-        <IntroS.Button bgColor="#FF5D56" onClick={() => onNaviage("/login")}>
+        <IntroS.Button bgColor="#FF5D56" onClick={() => onNavigation(navigate, "/login")}>
           캐릭터 받기
         </IntroS.Button>
         <IntroS.Button bgColor="#BFBFBF">

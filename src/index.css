@@ -139,3 +139,7 @@ body {
 #root {
   height: 100%;
 }
+
+input {
+  outline: none;
+}

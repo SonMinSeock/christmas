@@ -8,12 +8,22 @@ export const Layout = styled.div`
   margin: 0 auto;
 `;
 
-export const LoginLayout = styled(Layout)`
-  padding: 0rem;
+const GridContainer = styled(Layout)`
   display: grid;
+`;
+
+export const LoginLayout = styled(GridContainer)`
+  padding: 0rem;
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-areas:
     "header"
     "main"
     "footer";
+`;
+
+export const FormLayout = styled(GridContainer)`
+  grid-template-rows: 0.3fr 1fr;
+  grid-template-areas:
+    "header"
+    "main";
 `;
