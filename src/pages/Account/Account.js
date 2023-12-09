@@ -1,7 +1,7 @@
 import React from "react";
 import * as AccountS from "./Account.style";
 import * as TemplateS from "../../components/templates/template.style";
-import Form from "../../components/moecules/Form/Form";
+import Form from "../../components/moecules/Form/AccountForm/Form";
 
 function Account() {
   return (

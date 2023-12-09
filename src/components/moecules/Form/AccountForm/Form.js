@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as FormS from "./Form.style";
-import * as FormButtonS from "../../atoms/buttons/FormBtn.style";
+import * as FormButtonS from "../../../atoms/buttons/FormBtn.style";
 
 function Form() {
   const {
