@@ -42,6 +42,7 @@ export const Card = styled.section`
   color: #ffffff;
   padding: 1.5rem 0.8rem;
   margin-bottom: 1rem;
+  overflow: hidden;
   & h2 {
     font-size: 1.65rem;
     margin-bottom: 1rem;
@@ -73,9 +74,9 @@ export const Card = styled.section`
     img {
       position: absolute;
       width: 100%;
-      height: 250px;
+      height: 260px;
       object-fit: contain;
-      right: -60px;
+      right: -73px;
       bottom: -30px;
     }
   }
