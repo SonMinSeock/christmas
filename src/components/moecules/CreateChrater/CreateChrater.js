@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ChraterImage from "../../../assets/charaters/character.png";
 import styled from "styled-components";
-import * as ButtonS from "../../atoms/buttons/FormBtn.style";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { userState } from "../../../recoils/Atoms";
+import { Label } from "../../atoms/Label";
+import { ConfirmButton } from "../../atoms/buttons";
+import { useForm } from "react-hook-form";
+import { getDownloadURL, listAll, ref } from "firebase/storage";
+import { firebaseStorage } from "../../../firebase/config";
 
 const ChraterImageSection = styled.section`
   & img {
@@ -23,7 +29,7 @@ const ColorListItem = styled.li`
   width: 40px;
   height: 40px;
   border-radius: 70%;
-  background-color: ${(props) => "#" + props.bgColor};
+  background-color: ${(props) => props.bgColor};
   transition: all 0.3s ease-in-out;
   cursor: pointer;
   &:hover,
@@ -62,47 +68,224 @@ const Input = styled.input`
 `;
 
 function CreateChrater({ currentQuestinStep, onClickHandler }) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const [user, setUser] = useRecoilState(userState);
   const [selectedColor, setSelectedColor] = useState();
 
-  const selectColor = (event) => {
+  const characterColorList = [
+    { bgColor: "#FDFDFD", colorName: "white" },
+    { bgColor: "#EB998D", colorName: "orange" },
+    { bgColor: "#E599BF", colorName: "pink" },
+    { bgColor: "#B6A7CE", colorName: "purple" },
+    { bgColor: "#71B6E5", colorName: "blue" },
+    { bgColor: "#C2E3C4", colorName: "green" },
+    { bgColor: "#2E3545", colorName: "black" },
+  ];
+
+  const getCharacters = async (bgColorUrl = "white") => {
+    if (bgColorUrl === "white") {
+      const fileRef = ref(firebaseStorage, `${bgColorUrl}-bg-charaters/`);
+      const result = await listAll(fileRef);
+      const urls = await Promise.all(
+        result.items.map(async (item) => {
+          const url = await getDownloadURL(item);
+          return url;
+        })
+      );
+
+      if (urls.length !== 0) {
+        const randomCharacterIndex = Math.floor(Math.random() * urls.length);
+        console.log(urls[randomCharacterIndex]);
+        setUser((prev) => ({
+          ...prev,
+          characterUrl: urls[randomCharacterIndex],
+        }));
+      }
+    } else if (bgColorUrl === "orange") {
+      const fileRef = ref(firebaseStorage, `${bgColorUrl}-bg-charaters/`);
+      const result = await listAll(fileRef);
+      const urls = await Promise.all(
+        result.items.map(async (item) => {
+          const url = await getDownloadURL(item);
+          return url;
+        })
+      );
+
+      if (urls.length !== 0) {
+        const randomCharacterIndex = Math.floor(Math.random() * urls.length);
+        console.log(urls[randomCharacterIndex]);
+        setUser((prev) => ({
+          ...prev,
+          characterUrl: urls[randomCharacterIndex],
+        }));
+      }
+    } else if (bgColorUrl === "pink") {
+      const fileRef = ref(firebaseStorage, `${bgColorUrl}-bg-charaters/`);
+      const result = await listAll(fileRef);
+      const urls = await Promise.all(
+        result.items.map(async (item) => {
+          const url = await getDownloadURL(item);
+          return url;
+        })
+      );
+
+      if (urls.length !== 0) {
+        const randomCharacterIndex = Math.floor(Math.random() * urls.length);
+        console.log(urls[randomCharacterIndex]);
+        setUser((prev) => ({
+          ...prev,
+          characterUrl: urls[randomCharacterIndex],
+        }));
+      }
+    } else if (bgColorUrl === "purple") {
+      const fileRef = ref(firebaseStorage, `${bgColorUrl}-bg-charaters/`);
+      const result = await listAll(fileRef);
+      const urls = await Promise.all(
+        result.items.map(async (item) => {
+          const url = await getDownloadURL(item);
+          return url;
+        })
+      );
+
+      if (urls.length !== 0) {
+        const randomCharacterIndex = Math.floor(Math.random() * urls.length);
+        console.log(urls[randomCharacterIndex]);
+        setUser((prev) => ({
+          ...prev,
+          characterUrl: urls[randomCharacterIndex],
+        }));
+      }
+    } else if (bgColorUrl === "blue") {
+      const fileRef = ref(firebaseStorage, `${bgColorUrl}-bg-charaters/`);
+      const result = await listAll(fileRef);
+      const urls = await Promise.all(
+        result.items.map(async (item) => {
+          const url = await getDownloadURL(item);
+          return url;
+        })
+      );
+
+      if (urls.length !== 0) {
+        const randomCharacterIndex = Math.floor(Math.random() * urls.length);
+        console.log(urls[randomCharacterIndex]);
+        setUser((prev) => ({
+          ...prev,
+          characterUrl: urls[randomCharacterIndex],
+        }));
+      }
+    } else if (bgColorUrl === "green") {
+      const fileRef = ref(firebaseStorage, `${bgColorUrl}-bg-charaters/`);
+      const result = await listAll(fileRef);
+      const urls = await Promise.all(
+        result.items.map(async (item) => {
+          const url = await getDownloadURL(item);
+          return url;
+        })
+      );
+
+      if (urls.length !== 0) {
+        const randomCharacterIndex = Math.floor(Math.random() * urls.length);
+        console.log(urls[randomCharacterIndex]);
+        setUser((prev) => ({
+          ...prev,
+          characterUrl: urls[randomCharacterIndex],
+        }));
+      }
+    } else if (bgColorUrl === "black") {
+      const fileRef = ref(firebaseStorage, `${bgColorUrl}-bg-charaters/`);
+      const result = await listAll(fileRef);
+      const urls = await Promise.all(
+        result.items.map(async (item) => {
+          const url = await getDownloadURL(item);
+          return url;
+        })
+      );
+
+      if (urls.length !== 0) {
+        const randomCharacterIndex = Math.floor(Math.random() * urls.length);
+        console.log(urls[randomCharacterIndex]);
+        setUser((prev) => ({
+          ...prev,
+          characterUrl: urls[randomCharacterIndex],
+        }));
+      }
+    }
+  };
+
+  const selectColor = async (target, colorObj) => {
     if (selectedColor) {
       selectedColor.classList.remove("selected");
     }
-    setSelectedColor(event.target);
-    event.target.classList.add("selected");
+    await getCharacters(colorObj.colorName);
+
+    setSelectedColor(target);
+    setUser((prev) => ({
+      ...prev,
+      characterColor: {
+        ...colorObj,
+      },
+    }));
+    target.classList.add("selected");
   };
+
+  const onValid = (data) => {
+    const { nickname } = data;
+    const createdUser = {
+      ...user,
+      nickname,
+    };
+    setUser(createdUser);
+    console.log(createdUser);
+  };
+
+  useEffect(() => {
+    getCharacters();
+  }, []);
 
   return (
     <>
       <ChraterImageSection>
-        <img src={ChraterImage} alt="캐릭터 이미지" />
+        {user.characterUrl && <img src={user.characterUrl} alt="캐릭터 이미지" />}
       </ChraterImageSection>
       {currentQuestinStep === 3 && (
         <ColorList>
-          <ColorListItem bgColor="FDFDFD" onClick={selectColor}></ColorListItem>
-          <ColorListItem bgColor="EB998D" onClick={selectColor}></ColorListItem>
-          <ColorListItem bgColor="E599BF" onClick={selectColor}></ColorListItem>
-          <ColorListItem bgColor="B6A7CE" onClick={selectColor}></ColorListItem>
-          <ColorListItem bgColor="71B6E5" onClick={selectColor}></ColorListItem>
-          <ColorListItem bgColor="C2E3C4" onClick={selectColor}></ColorListItem>
-          <ColorListItem bgColor="2E3545" onClick={selectColor}></ColorListItem>
+          {characterColorList.map((color, idx) => (
+            <ColorListItem
+              key={idx}
+              className={idx === 0 && !selectedColor ? "selected" : ""}
+              bgColor={color.bgColor}
+              onClick={async (event) => await selectColor(event.target, color)}
+            />
+          ))}
         </ColorList>
       )}
 
       {currentQuestinStep > 3 && (
-        <Form>
+        <Form onSubmit={handleSubmit(onValid)}>
           <FormSection>
-            <FormLabel>닉네임</FormLabel>
-            <Input placeholder="산타" />
+            <Label className={errors.nickname ? "in-valid" : ""} marginSize="0.2rem">
+              닉네임
+            </Label>
+            <Input
+              className={errors.nickname ? "in-valid" : ""}
+              {...register("nickname", { required: true, minLength: 4, maxLength: 10 })}
+              placeholder="산타"
+              minLength={4}
+              maxLength={10}
+            />
           </FormSection>
           <FormSection>
-            <ButtonS.FormButton onClick={onClickHandler}>확인</ButtonS.FormButton>
+            <ConfirmButton>확인</ConfirmButton>
           </FormSection>
         </Form>
       )}
 
       <section>
-        {currentQuestinStep === 3 && <ButtonS.FormButton onClick={onClickHandler}>색상 선택하기</ButtonS.FormButton>}
+        {currentQuestinStep === 3 && <ConfirmButton onClick={onClickHandler}>색상 선택하기</ConfirmButton>}
       </section>
     </>
   );

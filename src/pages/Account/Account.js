@@ -5,7 +5,7 @@ import Form from "../../components/moecules/Form/AccountForm/Form";
 
 function Account() {
   return (
-    <TemplateS.FormLayout>
+    <TemplateS.Layout>
       <AccountS.Header>
         <h1>
           새로운 친구와 소통할 SNS를 <br />
@@ -15,7 +15,7 @@ function Account() {
       <main>
         <Form />
       </main>
-    </TemplateS.FormLayout>
+    </TemplateS.Layout>
   );
 }
 

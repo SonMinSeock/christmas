@@ -2,6 +2,15 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as FormS from "./Form.style";
 import * as FormButtonS from "../../../atoms/buttons/FormBtn.style";
+import { Label } from "../../../atoms/Label";
+import { Input } from "../../../atoms/Input";
+import { ToggleContainer, ToggleItem } from "../../Toggle";
+import { Checkbox, CheckboxContainer, CheckboxLabel } from "../../../atoms/Checkbox";
+import { onNavigation } from "../../../../controller/navigate";
+import { useNavigate } from "react-router-dom";
+import { ConfirmButton } from "../../../atoms/buttons";
+import { useSetRecoilState } from "recoil";
+import { userState } from "../../../../recoils/Atoms";
 
 function Form() {
   const {
@@ -12,19 +21,23 @@ function Form() {
     formState: { errors },
   } = useForm();
   const [gender, setGenger] = useState("male");
-  const [createdUserInfo, setCreatedUserInfo] = useState();
+  const setUser = useSetRecoilState(userState);
+
+  const navigation = useNavigate();
 
   const onValid = (data) => {
     const { contactDetails, allTerms, termsAge, termsInformation } = data;
-    const userInfo = {
-      contact: contactDetails, // 전화번호 혹은 SNS 계정
-      isAllTerms: allTerms, // 전체동의
-      isTermsAge: termsAge, // 14세 이상 나이 동의,
-      isTermsInformation: termsInformation, // 개인정보 동의
-    };
 
-    setCreatedUserInfo(userInfo);
-    console.log(userInfo);
+    setUser((prev) => ({
+      ...prev,
+      contact: contactDetails, // 전화번호 혹은 SNS 계정,
+      gender,
+      allTerm: allTerms, // 전체동의
+      ageTerm: termsAge, // 14세 이상 나이 동의
+      informationTerm: termsInformation, // 개인정보 동의
+    }));
+
+    onNavigation(navigation, "/createProfile");
   };
 
   const selectedGender = (gender) => setGenger(gender);
@@ -56,15 +69,16 @@ function Form() {
     <FormS.Form onSubmit={handleSubmit(onValid)}>
       <FormS.FormMain>
         <FormS.Section>
-          <FormS.FormContactLabel htmlFor="contact-details" className={errors.contactDetails ? "in-valid" : ""}>
+          <Label htmlFor="contact-details" className={errors.contactDetails ? "in-valid" : ""} marginSize="0.2rem">
             연락처
-          </FormS.FormContactLabel>
-          <FormS.FormContactInput
+          </Label>
+          <Input
             {...register("contactDetails", { required: true, minLength: 4 })}
             type="text"
             id="contact-details"
             className={errors.contactDetails ? "in-valid" : ""}
             placeholder="인스타그램, 카카오톡 연락처 등"
+            marginSize="0.5rem"
           />
           <FormS.FormContactParagraph id="contact-description">
             새로운 친구와 소통하고 싶은 SNS의 아이디 혹은 연락처를 알려주세요.{" "}
@@ -73,63 +87,57 @@ function Form() {
           </FormS.FormContactParagraph>
         </FormS.Section>
         <FormS.Section>
-          <FormS.FormGenderSelectContainer>
-            <FormS.FormGenderSelectBox
-              onClick={() => selectedGender("male")}
-              className={gender === "male" ? "selected" : ""}
-            >
+          <ToggleContainer>
+            <ToggleItem onClick={() => selectedGender("male")} className={gender === "male" ? "selected" : ""}>
               <span>남성</span>
-            </FormS.FormGenderSelectBox>
-            <FormS.FormGenderSelectBox
-              onClick={() => selectedGender("female")}
-              className={gender === "female" ? "selected" : ""}
-            >
+            </ToggleItem>
+            <ToggleItem onClick={() => selectedGender("female")} className={gender === "female" ? "selected" : ""}>
               <span>여성</span>
-            </FormS.FormGenderSelectBox>
-          </FormS.FormGenderSelectContainer>
+            </ToggleItem>
+          </ToggleContainer>
         </FormS.Section>
         <FormS.Section>
-          <FormS.FormCheckboxContainer>
-            <FormS.FormCheckbox
+          <CheckboxContainer>
+            <Checkbox
               {...register("allTerms")}
               type="checkbox"
               id="all-terms"
               name="all-terms"
               onChange={(event) => onCheckBox("all", event.target.checked)}
             />
-            <FormS.FormCheckboxLabel htmlFor="all-terms">전체 동의</FormS.FormCheckboxLabel>
-          </FormS.FormCheckboxContainer>
+            <CheckboxLabel htmlFor="all-terms">전체 동의</CheckboxLabel>
+          </CheckboxContainer>
         </FormS.Section>
         <hr />
         <FormS.Section>
-          <FormS.FormCheckboxContainer>
-            <FormS.FormCheckbox
+          <CheckboxContainer>
+            <Checkbox
               {...register("termsAge", { required: true })}
               type="checkbox"
               id="terms-age"
               name="terms-age"
               onChange={(event) => onCheckBox("age", event.target.checked)}
             />
-            <FormS.FormCheckboxLabel htmlFor="terms-age">
+            <CheckboxLabel htmlFor="terms-age">
               <FormS.FormHighlightRedSpan>(필수)</FormS.FormHighlightRedSpan> 만 14세 이상이에요
-            </FormS.FormCheckboxLabel>
-          </FormS.FormCheckboxContainer>
-          <FormS.FormCheckboxContainer>
-            <FormS.FormCheckbox
+            </CheckboxLabel>
+          </CheckboxContainer>
+          <CheckboxContainer>
+            <Checkbox
               {...register("termsInformation", { required: true })}
               type="checkbox"
               id="terms-information"
               name="terms-information"
               onChange={(event) => onCheckBox("information", event.target.checked)}
             />
-            <FormS.FormCheckboxLabel htmlFor="terms-information">
+            <CheckboxLabel htmlFor="terms-information">
               <FormS.FormHighlightRedSpan>(필수)</FormS.FormHighlightRedSpan> 이용약관 및 개인정부수집이용 동의
-            </FormS.FormCheckboxLabel>
-          </FormS.FormCheckboxContainer>
+            </CheckboxLabel>
+          </CheckboxContainer>
         </FormS.Section>
       </FormS.FormMain>
       <FormS.FormFooter>
-        <FormButtonS.FormButton>확인</FormButtonS.FormButton>
+        <ConfirmButton>확인</ConfirmButton>
       </FormS.FormFooter>
     </FormS.Form>
   );

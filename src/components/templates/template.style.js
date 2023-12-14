@@ -8,11 +8,10 @@ export const Layout = styled.div`
   max-width: 380px;
   margin: 0 auto;
   /* padding: 0rem; */
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 2fr;
   grid-template-areas:
     "header"
-    "main"
-    "footer";
+    "main";
 `;
 
 export const LoginLayout = styled(Layout)`

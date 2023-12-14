@@ -4,7 +4,7 @@ import QuestionForm from "../Form/QuestionForm/QuestionForm";
 import StepBar from "../../atoms/stepbar/StepBar";
 import CreateChrater from "../CreateChrater/CreateChrater";
 
-function Question({ currentQuestinStep, onClickHandler }) {
+function Question({ profile, setProfile, currentQuestinStep, setCurrentQuestionStep, onClickHandler }) {
   const questionTitleList = [
     <h1>
       ‘크리스마스’ 하면 무엇이
@@ -31,7 +31,13 @@ function Question({ currentQuestinStep, onClickHandler }) {
         {questionTitleList[currentQuestinStep]}
       </QuestionS.Header>
       <main>
-        {currentQuestinStep < 3 && <QuestionForm onClickHandler={onClickHandler} />}
+        {currentQuestinStep < 3 && (
+          <QuestionForm
+            onClickHandler={onClickHandler}
+            currentQuestinStep={currentQuestinStep}
+            setCurrentQuestionStep={setCurrentQuestionStep}
+          />
+        )}
         {currentQuestinStep >= 3 && (
           <CreateChrater currentQuestinStep={currentQuestinStep} onClickHandler={onClickHandler} />
         )}

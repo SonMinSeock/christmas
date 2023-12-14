@@ -7,6 +7,8 @@ import * as TemplateS from "../../components/templates/template.style";
 import * as IntroS from "./Intro.style";
 import { useNavigate } from "react-router-dom";
 import { onNavigation } from "../../controller/navigate";
+import { Card } from "../../components/moecules/Card";
+import { MediumButton } from "../../components/atoms/buttons";
 
 function Intro() {
   const navigate = useNavigate();
@@ -21,8 +23,8 @@ function Intro() {
           함께 할 친구를 소개해드려요
         </p>
       </IntroS.Header>
-      <IntroS.Main>
-        <IntroS.Card className="red">
+      <main>
+        <Card className="red">
           <h2>캐릭터를 만들어요</h2>
           <p>
             나만의 크리스마스
@@ -31,8 +33,8 @@ function Intro() {
             <br /> 이야기를 나눠봐요
           </p>
           <img src={cardChristmasTreeImage} alt="애플리케이션 소개 카드 중 크리스마스 트리 이미지" />
-        </IntroS.Card>
-        <IntroS.Card className="blue">
+        </Card>
+        <Card className="blue">
           <h2>마음을 나눠보세요</h2>
           <p>
             2023년을 마무리하며 친구들에게
@@ -42,8 +44,8 @@ function Intro() {
             드려요
           </p>
           <img src={letterImage} alt="애플리케이션 소개 카드 중 크리스마스 트리 이미지" />
-        </IntroS.Card>
-        <IntroS.Card className="green">
+        </Card>
+        <Card className="green">
           <h2>선물도 함께 받아보세요</h2>
           <p>
             이번 크리스마스는
@@ -55,16 +57,16 @@ function Intro() {
             선물해 드려요
           </p>
           <img src={socksImage} alt="애플리케이션 소개 카드 중 크리스마스 트리 이미지" />
-        </IntroS.Card>
-      </IntroS.Main>
+        </Card>
+      </main>
       <IntroS.Footer>
-        <IntroS.Button bgColor="#FF5D56" onClick={() => onNavigation(navigate, "/login")}>
+        <MediumButton bgColor="#FF5D56" marginSize="1rem" onClick={() => onNavigation(navigate, "/login")}>
           캐릭터 받기
-        </IntroS.Button>
-        <IntroS.Button bgColor="#BFBFBF">
+        </MediumButton>
+        <MediumButton bgColor="#BFBFBF">
           <FiShare />
           이벤트 공유
-        </IntroS.Button>
+        </MediumButton>
       </IntroS.Footer>
     </TemplateS.Layout>
   );
