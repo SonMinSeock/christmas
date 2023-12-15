@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import ChraterImage from "../../../assets/charaters/character.png";
 import styled from "styled-components";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { userState } from "../../../recoils/Atoms";
 import { Label } from "../../atoms/Label";
 import { ConfirmButton } from "../../atoms/buttons";
@@ -10,9 +9,10 @@ import { getDownloadURL, listAll, ref } from "firebase/storage";
 import { firebaseStorage } from "../../../firebase/config";
 
 const ChraterImageSection = styled.section`
+  height: 300px;
   & img {
     width: 100%;
-    height: 300px;
+    height: 100%;
     object-fit: cover;
     border-radius: 25px;
   }
@@ -75,6 +75,7 @@ function CreateChrater({ currentQuestinStep, onClickHandler }) {
   } = useForm();
   const [user, setUser] = useRecoilState(userState);
   const [selectedColor, setSelectedColor] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
   const characterColorList = [
     { bgColor: "#FDFDFD", colorName: "white" },
@@ -87,133 +88,27 @@ function CreateChrater({ currentQuestinStep, onClickHandler }) {
   ];
 
   const getCharacters = async (bgColorUrl = "white") => {
-    if (bgColorUrl === "white") {
-      const fileRef = ref(firebaseStorage, `${bgColorUrl}-bg-charaters/`);
-      const result = await listAll(fileRef);
-      const urls = await Promise.all(
-        result.items.map(async (item) => {
-          const url = await getDownloadURL(item);
-          return url;
-        })
-      );
+    setIsLoading(true);
 
-      if (urls.length !== 0) {
-        const randomCharacterIndex = Math.floor(Math.random() * urls.length);
-        console.log(urls[randomCharacterIndex]);
-        setUser((prev) => ({
-          ...prev,
-          characterUrl: urls[randomCharacterIndex],
-        }));
-      }
-    } else if (bgColorUrl === "orange") {
-      const fileRef = ref(firebaseStorage, `${bgColorUrl}-bg-charaters/`);
-      const result = await listAll(fileRef);
-      const urls = await Promise.all(
-        result.items.map(async (item) => {
-          const url = await getDownloadURL(item);
-          return url;
-        })
-      );
+    const fileRef = ref(firebaseStorage, `${bgColorUrl}-bg-charaters/`);
+    const result = await listAll(fileRef);
+    const urls = await Promise.all(
+      result.items.map(async (item) => {
+        const url = await getDownloadURL(item);
+        return url;
+      })
+    );
 
-      if (urls.length !== 0) {
-        const randomCharacterIndex = Math.floor(Math.random() * urls.length);
-        console.log(urls[randomCharacterIndex]);
-        setUser((prev) => ({
-          ...prev,
-          characterUrl: urls[randomCharacterIndex],
-        }));
-      }
-    } else if (bgColorUrl === "pink") {
-      const fileRef = ref(firebaseStorage, `${bgColorUrl}-bg-charaters/`);
-      const result = await listAll(fileRef);
-      const urls = await Promise.all(
-        result.items.map(async (item) => {
-          const url = await getDownloadURL(item);
-          return url;
-        })
-      );
-
-      if (urls.length !== 0) {
-        const randomCharacterIndex = Math.floor(Math.random() * urls.length);
-        console.log(urls[randomCharacterIndex]);
-        setUser((prev) => ({
-          ...prev,
-          characterUrl: urls[randomCharacterIndex],
-        }));
-      }
-    } else if (bgColorUrl === "purple") {
-      const fileRef = ref(firebaseStorage, `${bgColorUrl}-bg-charaters/`);
-      const result = await listAll(fileRef);
-      const urls = await Promise.all(
-        result.items.map(async (item) => {
-          const url = await getDownloadURL(item);
-          return url;
-        })
-      );
-
-      if (urls.length !== 0) {
-        const randomCharacterIndex = Math.floor(Math.random() * urls.length);
-        console.log(urls[randomCharacterIndex]);
-        setUser((prev) => ({
-          ...prev,
-          characterUrl: urls[randomCharacterIndex],
-        }));
-      }
-    } else if (bgColorUrl === "blue") {
-      const fileRef = ref(firebaseStorage, `${bgColorUrl}-bg-charaters/`);
-      const result = await listAll(fileRef);
-      const urls = await Promise.all(
-        result.items.map(async (item) => {
-          const url = await getDownloadURL(item);
-          return url;
-        })
-      );
-
-      if (urls.length !== 0) {
-        const randomCharacterIndex = Math.floor(Math.random() * urls.length);
-        console.log(urls[randomCharacterIndex]);
-        setUser((prev) => ({
-          ...prev,
-          characterUrl: urls[randomCharacterIndex],
-        }));
-      }
-    } else if (bgColorUrl === "green") {
-      const fileRef = ref(firebaseStorage, `${bgColorUrl}-bg-charaters/`);
-      const result = await listAll(fileRef);
-      const urls = await Promise.all(
-        result.items.map(async (item) => {
-          const url = await getDownloadURL(item);
-          return url;
-        })
-      );
-
-      if (urls.length !== 0) {
-        const randomCharacterIndex = Math.floor(Math.random() * urls.length);
-        console.log(urls[randomCharacterIndex]);
-        setUser((prev) => ({
-          ...prev,
-          characterUrl: urls[randomCharacterIndex],
-        }));
-      }
-    } else if (bgColorUrl === "black") {
-      const fileRef = ref(firebaseStorage, `${bgColorUrl}-bg-charaters/`);
-      const result = await listAll(fileRef);
-      const urls = await Promise.all(
-        result.items.map(async (item) => {
-          const url = await getDownloadURL(item);
-          return url;
-        })
-      );
-
-      if (urls.length !== 0) {
-        const randomCharacterIndex = Math.floor(Math.random() * urls.length);
-        console.log(urls[randomCharacterIndex]);
-        setUser((prev) => ({
-          ...prev,
-          characterUrl: urls[randomCharacterIndex],
-        }));
-      }
+    if (urls.length !== 0) {
+      const randomCharacterIndex = Math.floor(Math.random() * urls.length);
+      console.log(urls[randomCharacterIndex]);
+      setUser((prev) => ({
+        ...prev,
+        characterUrl: urls[randomCharacterIndex],
+      }));
     }
+
+    setIsLoading(false);
   };
 
   const selectColor = async (target, colorObj) => {
@@ -225,9 +120,7 @@ function CreateChrater({ currentQuestinStep, onClickHandler }) {
     setSelectedColor(target);
     setUser((prev) => ({
       ...prev,
-      characterColor: {
-        ...colorObj,
-      },
+      characterColor: { ...colorObj },
     }));
     target.classList.add("selected");
   };
@@ -249,7 +142,7 @@ function CreateChrater({ currentQuestinStep, onClickHandler }) {
   return (
     <>
       <ChraterImageSection>
-        {user.characterUrl && <img src={user.characterUrl} alt="캐릭터 이미지" />}
+        {!isLoading ? user.characterUrl && <img src={user.characterUrl} alt="캐릭터 이미지" /> : "loading..."}
       </ChraterImageSection>
       {currentQuestinStep === 3 && (
         <ColorList>
